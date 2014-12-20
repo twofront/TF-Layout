@@ -1,0 +1,23 @@
+
+body {
+	background: rgb(224,224,224);
+}
+
+.TFL-Table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.TFL-Row {
+
+}
+
+.TFL-Column {
+	background: white;
+	padding: 5px;
+}
+
+.TFL-Header {
+	background: rgb(128,128,128);
+	padding: 5px;
+}

@@ -1,0 +1,41 @@
+{
+  "name": "tflayout",
+  "version": "0.0.1",
+  "description": "This lays out data or forms.",
+  "private": "true",
+  "author": {
+    "name": "Thomas Baron",
+    "email": "thomasjbaron@hotmail.com"
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "jshintConfig": {
+    "camelcase": true,
+    "curly": false,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": "nofunc",
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "plusplus": false,
+    "quotmark": "single",
+    "undef": true,
+    "unused": true,
+    "strict": false,
+    "trailing": true,
+    "maxparams": 4,
+    "maxdepth": 5,
+    "maxlen": 130,
+    "globalstrict": true,
+    "asi": false,
+    "eqnull": false,
+    "evil": false,
+    "laxbreak": false,
+    "laxcomma": false,
+    "loopfunc": true,
+    "devel": true,
+    "browser": true
+  }
+}
