@@ -8,7 +8,9 @@
     "email": "thomasjbaron@hotmail.com"
   },
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "tfdom": "git+https://tfapps:tfapps888@bitbucket.org/twofront/tf-dom.git"
+  },
   "jshintConfig": {
     "camelcase": true,
     "curly": false,
@@ -36,6 +38,7 @@
     "laxcomma": false,
     "loopfunc": true,
     "devel": true,
-    "browser": true
+    "browser": true,
+    "node": true
   }
 }

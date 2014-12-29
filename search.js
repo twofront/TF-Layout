@@ -8,9 +8,9 @@ module.exports = exports = function(container) {
 exports.prototype.setField = function(field) {
 	var that = this;
 	dom.on(field, 'keyup', function() {
-		for (var i=0; i<that.container.childNodes.length; i++) {
+		for (var i=1; i<that.container.childNodes.length; i++) {
 			var n = that.container.childNodes[i];
-			if (n.innerHTML.toLowerCase().indexOf(field.value) !== -1) {
+			if (n.innerHTML.toLowerCase().indexOf(field.value.toLowerCase()) !== -1) {
 				n.style.display = 'table-row';
 			} else {
 				n.style.display = 'none';

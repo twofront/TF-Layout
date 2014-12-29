@@ -1,5 +1,5 @@
 
-var dom = require('../tfdom');
+var dom = require('tfdom');
 var Search = require('./search.js');
 
 module.exports = exports = function(settings) {
@@ -14,11 +14,7 @@ exports.prototype.build = function(data) {
 	this.container = dom.create('div', {
 		class: this.settings.styleprefix + 'Container'
 	});
-	this.table = dom.create('table', {
-		class: this.settings.styleprefix + 'Table'
-	});
 	generateChildren.call(this, data);
-	this.container.appendChild(this.table);
 	return this.container;
 };
 
@@ -40,17 +36,19 @@ function generateChildren(data) {
 			e = data[i];
 		}
 
-		if (e.type === 'group') {
+		if (e.type === 'group' || e.type === 'header') {
 			// Right now groups are groups of rows (a tbody)... They should be a separate table.
-			this.group = createGroup.call(this, e);
+			var mainContainer = this.container;
+			if (e.type === 'header') this.container = createColumn.call(this, e);
+			this.table = createGroup.call(this, e);
 			if (e.searchable) {
-				var s = new Search(this.group);
-				var searchField = dom.create('input');
-				this.container.appendChild(searchField);
+				var s = new Search(this.table);
+				var searchField = createInput.call(this, {placeholder: 'Search', colspan: 2});
 				s.setField(searchField);
 			}
 			if (e.contents) generateChildren.call(this, e.contents);
-			this.group = null;
+			this.table = null;
+			this.container = mainContainer;
 		} else if (e.type === 'row') {
 			// When a Row is explicitly created we keep a reference of it for all its children to use.
 			// Unlike implicitly created Rows, these can have multiple Columns.
@@ -70,33 +68,34 @@ function generateChildren(data) {
 }
 
 function createGroup(e) {
-	var group = dom.create('tbody', {
-		class: this.settings.styleprefix + 'Group'
+	var group = dom.create('table', {
+		class: this.settings.styleprefix + 'Table' + (e.stylesuffix?e.stylesuffix:'')
 	});
-	this.table.appendChild(group);
+	this.container.appendChild(group, e);
 	return group;
 }
 
 function createRow(e) {
-	var holder = this.table;
+	var table = this.table;
 	var row = dom.create('tr', {
-		class: this.settings.styleprefix + 'Row'
+		class: this.settings.styleprefix + 'Row' + (e.stylesuffix?e.stylesuffix:'')
 	});
-	if (this.group) {
-		holder = this.group;
+	if (!table) {
+		table = createGroup.call(this);
 	}
-	holder.appendChild(row);
+	table.appendChild(row, e);
 	return row;
 }
 
 function createColumn(e) {
 	var row = this.row;
 	var column = dom.create('td', {
-		class: this.settings.styleprefix + (e.stylename?e.stylename:'Column')
+		class: this.settings.styleprefix + 'Column' + (e.stylesuffix?e.stylesuffix:''),
+		colspan: e.colspan ? e.colspan : 1
 	});
 	// When we add a Column outside of any Row we implicitly create a Row for this 1 Column only.
 	if (!row) {
-		row = createRow.call(this);
+		row = createRow.call(this, e);
 	}
 	row.appendChild(column);
 	return column;
@@ -106,11 +105,12 @@ function createInput(e) {
 	var column = this.column;
 	// When we add an Input outside of any Column we implicitly create a Column for this 1 Input only.
 	if (!column) {
-		column = createColumn.call(this, {});
+		column = createColumn.call(this, e);
 	}
 	var inp = dom.create('input', {
 		'type': e.subtype ? e.subtype : 'text',
-		'value': e.value ? e.value : ''
+		'value': e.value ? e.value : '',
+		'placeholder': e.placeholder ? e.placeholder : ''
 	});
 	column.appendChild(inp);
 	return inp;

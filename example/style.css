@@ -1,11 +1,17 @@
 
 body {
 	background: rgb(224,224,224);
+	font-family: sans-serif;
+}
+
+input {
+	width: 100%;
 }
 
 .TFL-Table {
 	width: 100%;
 	table-layout: fixed;
+	font-size: 14px;
 }
 
 .TFL-Row {
@@ -17,7 +23,8 @@ body {
 	padding: 5px;
 }
 
-.TFL-Header {
-	background: rgb(128,128,128);
+.TFL-Column-Header {
+	font-size: 16px;
 	padding: 5px;
+	padding-left: 0px;
 }

@@ -11,8 +11,18 @@ tfl.template('forminput', {type: 'row', contents: [
 ]});
 
 var tbl = tfl.build([
+	{type: 'row', contents: [
+		{type: 'text', value: 'Time'},
+		{type: 'text', value: '4:30 AM'}
+	]},
+	{type: 'text', stylesuffix: '-Header', value: 'Area1'},
 	{type: 'group', searchable: true, contents: [
-		{type: 'text', stylename: 'Header', value: 'ID'},
+		{type: 'forminput', name: 'Username', value: 'tjbaron'},
+		{type: 'forminput', subtype: 'password', name: 'Password'},
+		{type: 'input', subtype: 'button', value: 'Go!'}
+	]},
+	{type: 'text', stylesuffix: '-Header', value: 'Area2'},
+	{type: 'group', searchable: true, contents: [
 		{type: 'forminput', name: 'Username', value: 'tjbaron'},
 		{type: 'forminput', subtype: 'password', name: 'Password'},
 		{type: 'input', subtype: 'button', value: 'Go!'}
