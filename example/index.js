@@ -7,12 +7,12 @@ var tfl = new TFLayout({
 
 tfl.template('forminput', {type: 'row', contents: [
 	{type: 'text', value: '#name'},
-	{type: 'input', subtype: '#subtype', value: '#value'}
+	{type: 'input', subtype: '#subtype', inputsubmit: '#id', value: '#value'}
 ]});
 
-var tbl = tfl.build([
-	{type: 'row', contents: [
-		{type: 'text', value: 'Time'},
+var ele = tfl.build([
+	{type: 'row', rowclick: 'You clicked a row!', contents: [
+		{type: 'text', value: 'Time', columnclick: 'You clicked a column!'},
 		{type: 'text', value: '4:30 AM'}
 	]},
 	{type: 'text', stylesuffix: '-Header', value: 'Area1'},
@@ -29,4 +29,11 @@ var tbl = tfl.build([
 	]}
 ]);
 
-document.body.appendChild(tbl);
+tfl.on('columnclick', function(data) {
+	alert(data);
+});
+tfl.on('rowclick', function(data) {
+	alert(data);
+});
+
+document.body.appendChild(ele);

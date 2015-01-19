@@ -4,8 +4,8 @@ var Search = require('./search.js');
 
 module.exports = exports = function(settings) {
 	this.settings = settings ? settings : {};
-	if (settings.styleprefix === undefined) settings.styleprefix = '';
-
+	if (this.settings.styleprefix === undefined) this.settings.styleprefix = '';
+	this.events = {};
 	this.templates = {};
 };
 
@@ -17,6 +17,11 @@ exports.prototype.build = function(data) {
 	generateChildren.call(this, data);
 	return this.container;
 };
+
+exports.prototype.on = function(ev, callback) {
+	if (!this.events[ev]) this.events[ev] = [];
+	this.events[ev].push(callback);
+}
 
 function generateChildren(data) {
 	for (var i=0; i<data.length; i++) {
@@ -37,9 +42,6 @@ function generateChildren(data) {
 		}
 
 		if (e.type === 'group' || e.type === 'header') {
-			// Right now groups are groups of rows (a tbody)... They should be a separate table.
-			var mainContainer = this.container;
-			if (e.type === 'header') this.container = createColumn.call(this, e);
 			this.table = createGroup.call(this, e);
 			if (e.searchable) {
 				var s = new Search(this.table);
@@ -48,7 +50,6 @@ function generateChildren(data) {
 			}
 			if (e.contents) generateChildren.call(this, e.contents);
 			this.table = null;
-			this.container = mainContainer;
 		} else if (e.type === 'row') {
 			// When a Row is explicitly created we keep a reference of it for all its children to use.
 			// Unlike implicitly created Rows, these can have multiple Columns.
@@ -67,6 +68,21 @@ function generateChildren(data) {
 	}
 }
 
+function addClickEvent(eventname, domelement, data) {
+	if (data) {
+		(function(that, data) {
+			domelement.addEventListener('click', function() {
+				if (that.events[eventname]) {
+					var els = that.events[eventname];
+					for (var i=0; i<els.length; i++) {
+						els[i](data);
+					}
+				}
+			});
+		})(this, data);
+	}
+}
+
 function createGroup(e) {
 	var group = dom.create('table', {
 		class: this.settings.styleprefix + 'Table' + (e.stylesuffix?e.stylesuffix:'')
@@ -80,8 +96,9 @@ function createRow(e) {
 	var row = dom.create('tr', {
 		class: this.settings.styleprefix + 'Row' + (e.stylesuffix?e.stylesuffix:'')
 	});
+	addClickEvent.call(this, 'rowclick', row, e.rowclick);
 	if (!table) {
-		table = createGroup.call(this);
+		table = createGroup.call(this, e);
 	}
 	table.appendChild(row, e);
 	return row;
@@ -93,6 +110,7 @@ function createColumn(e) {
 		class: this.settings.styleprefix + 'Column' + (e.stylesuffix?e.stylesuffix:''),
 		colspan: e.colspan ? e.colspan : 1
 	});
+	addClickEvent.call(this, 'columnclick', column, e.columnclick);
 	// When we add a Column outside of any Row we implicitly create a Row for this 1 Column only.
 	if (!row) {
 		row = createRow.call(this, e);
@@ -117,12 +135,22 @@ function createInput(e) {
 }
 
 function createText(e) {
-	var column = this.column;
+	var tcolumn = this.column;
+	var column = tcolumn;
 	if (!column) {
 		column = createColumn.call(this, e);
 	}
 	var txt = document.createTextNode(e.value);
 	column.appendChild(txt);
+	if (e.editable) {
+		if (!tcolumn) this.column = column;
+		var inp = createInput.call(this, e);
+		inp.style.display = 'none';
+		this.column = tcolumn;
+		dom.on(this.column, 'click', function() {
+			inp.style.display = 'inline-block';
+		});
+	}
 	return txt;
 }
 
