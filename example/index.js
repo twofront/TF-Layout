@@ -10,29 +10,27 @@ tfl.template('forminput', {type: 'row', contents: [
 	{type: 'input', subtype: '#subtype', inputsubmit: '#id', value: '#value'}
 ]});
 
+tfl.template('simpleheader', {type: 'header', contents: [
+	{type: 'text', value: '#value', stylesuffix: '-Header', onclick: 'Title Clicked!'}
+]});
+
 var ele = tfl.build([
-	{type: 'row', rowclick: 'You clicked a row!', contents: [
-		{type: 'text', value: 'Time', columnclick: 'You clicked a column!'},
-		{type: 'text', value: '4:30 AM'}
-	]},
-	{type: 'text', stylesuffix: '-Header', value: 'Area1'},
-	{type: 'group', searchable: true, contents: [
+	{type: 'simpleheader', value: 'Entry Data'},
+	{type: 'group', contents: [
 		{type: 'forminput', name: 'Username', value: 'tjbaron'},
 		{type: 'forminput', subtype: 'password', name: 'Password'},
-		{type: 'input', subtype: 'button', value: 'Go!'}
 	]},
-	{type: 'text', stylesuffix: '-Header', value: 'Area2'},
-	{type: 'group', searchable: true, contents: [
-		{type: 'forminput', name: 'Username', value: 'tjbaron'},
-		{type: 'forminput', subtype: 'password', name: 'Password'},
-		{type: 'input', subtype: 'button', value: 'Go!'}
-	]}
+	{type: 'simpleheader', value: 'Entry Tags'},
+	{type: 'group', columns: 'fit', 'min-width': 200, multiselect: true, contents: [
+		{type: 'text', value: 'Noun'},
+		{type: 'text', value: 'Pronoun'},
+		{type: 'text', value: 'Verb'},
+		{type: 'text', value: 'Adverb'}
+	]},
+	{type: 'input', subtype: 'button', value: 'Save'}
 ]);
 
-tfl.on('columnclick', function(data) {
-	alert(data);
-});
-tfl.on('rowclick', function(data) {
+tfl.on('click', function(data) {
 	alert(data);
 });
 

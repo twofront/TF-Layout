@@ -1,35 +1,46 @@
 ## Tags
 
-### Group
+	### Group
 
-### Row
+		#### ColumnFlow
 
-#### RowClick
+		When this is used creation of columns without rows will cause there to be
+		multiple columns per row (rather than the default of one). You may specify
+		a number of columns or a minimum width by adding `px` to the end. When you
+		specify a minimum width we automatically fit as many columns per row as possible.
 
-### Column
+	### Row
 
-#### Colspan
+		#### RowClick
 
-#### ColumnClick
+	### Column
 
-### Text
+		#### Colspan
 
-#### Editable
+		#### ColumnClick
 
-### Input
+	### Text
 
-#### Placeholder
+		#### Editable
 
-#### Subtype
+	### Input
+
+		#### Placeholder
+
+		#### Subtype
 
 ## General Properties
 
-### Type
+	### Type
 
-Property used to define tag type.
+	Property used to define tag type.
 
-### Class
+	### StyleSuffix
 
-### Contents
+	### Contents
 
-Used by groups, rows and columns.
+	Used by groups, rows and columns.
+
+## Instantiation Properties
+
+	### StylePrefix

@@ -12,6 +12,21 @@ input {
 	width: 100%;
 	table-layout: fixed;
 	font-size: 14px;
+	margin-bottom: -2px;
+	cursor: pointer;
+}
+
+.TFL-Header {
+	width: 100%;
+	table-layout: fixed;
+	font-size: 16px;
+	margin-bottom: -2px;
+	cursor: pointer;
+}
+
+.TFL-Column-Header {
+	padding: 5px;
+	padding-left: 0px;
 }
 
 .TFL-Row {
@@ -23,8 +38,6 @@ input {
 	padding: 5px;
 }
 
-.TFL-Column-Header {
-	font-size: 16px;
-	padding: 5px;
-	padding-left: 0px;
+.Selected {
+	background: red;
 }
