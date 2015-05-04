@@ -22,7 +22,7 @@ This is some data with complete structure:
 		]}
 	]
 
-Many of the parts of this data are optional, and will be assumed when omitted. It is also possible to define templates in javascript. This allows shorter input to be automatically converted to a more complex, standardized format. Example:
+Many of the parts of this data is optional, and will be assumed when omitted. It is also possible to define templates in javascript. This allows shorter input to be automatically converted to a more complex, standardized format. Example:
 
 	layout.template("input", {"type": "row", "contents": [
 		{"type": "column", "contents": [

@@ -7,13 +7,48 @@ module.exports = exports = function(settings) {
 	this.settings = settings ? settings : {};
 	if (this.settings.styleprefix === undefined) this.settings.styleprefix = '';
 	this.events = {};
+	// Templates allow complex layout data to be simplified.
 	this.templates = {};
+	// A stack of all headers used to decide which one sticks to the top and helps o it.
+	this.headerstack = [];
+
+	this.formdata = {};
+	this.displaygroups = {};
 };
 
 exports.prototype.build = function(data) {
+	var that = this;
+
 	this.container = dom.create('div', {
 		class: this.settings.styleprefix + 'Container'
 	});
+	this.headerholder = dom.create('div', {
+		parent: this.container,
+		style: 'position: fixed; top: 0px; left: 0px; overflow: hidden;'
+	});
+
+	this.container.addEventListener('scroll', function scrolled(e) {
+		that.headerholder.style.left = -e.target.scrollLeft+'px';
+		var topPos = e.target.scrollTop;
+		if (that.activeheader) {
+			that.activeheader.holder.appendChild(that.activeheader.header);
+			that.activeheader.holder.style.height = null;
+			that.activeheader = null;
+		}
+		for (var i=that.headerstack.length-1; i>=0; i--) {
+			var h = that.headerstack[i];
+			if (h.holder.offsetTop < topPos) {
+				h.holder.style.height = h.holder.offsetHeight+'px';
+				that.headerholder.appendChild(h.header);
+				that.activeheader = h;
+				return;
+			}
+		}
+	});
+
+	this.formdata = {};
+	this.displaygroups = {};
+
 	generateChildren.call(this, data);
 	return this.container;
 };
@@ -28,6 +63,23 @@ exports.prototype.template = function(name, value) {
 	if (!Array.isArray(value)) value = [value];
 	// Convert the template to a string so we can use regex later to substitute places the #s.
 	this.templates[name] = JSON.stringify(value);
+};
+
+exports.prototype.getdata = function() {
+	var d = {};
+	for (var e in this.formdata) {
+		d[e] = this.formdata[e].value;
+		// This is specific to `select` and `multiselect` groups...
+		if (typeof(d[e]) === 'object' && d[e] !== null && d[e].value) d[e] = d[e].value;
+		if (Array.isArray(d[e])) {
+			var na = [];
+			for (var i=0; i<d[e].length; i++) {
+				na.push(d[e][i].value);
+			}
+			d[e] = na;
+		}
+	}
+	return d;
 };
 
 function generateChildren(data) {
