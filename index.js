@@ -1,7 +1,6 @@
 
 var dom = require('tfdom');
 var tag_generators = require('./lib/tag_generators');
-var Search = require('./search.js');
 
 module.exports = exports = function(settings) {
 	this.settings = settings ? settings : {};
@@ -9,10 +8,14 @@ module.exports = exports = function(settings) {
 	this.events = {};
 	// Templates allow complex layout data to be simplified.
 	this.templates = {};
-	// A stack of all headers used to decide which one sticks to the top and helps o it.
+	// A stack of all headers used to decide which one sticks to the top and helps do it.
 	this.headerstack = [];
 
+	// This holds all the inputs or groups whose values will be outputted as form-like data.
+	// All elements that specify a "name" are added.
 	this.formdata = {};
+	// This holds all elements that specifiy an "id".
+	this.elements = {};
 	this.displaygroups = {};
 };
 
@@ -47,26 +50,20 @@ exports.prototype.build = function(data) {
 	});
 
 	this.formdata = {};
+	this.elements = {};
 	this.displaygroups = {};
 
 	generateChildren.call(this, data);
 	return this.container;
 };
 
-exports.prototype.on = function(ev, callback) {
-	if (!this.events[ev]) this.events[ev] = [];
-	this.events[ev].push(callback);
-}
-
-exports.prototype.template = function(name, value) {
-	// Ensure we have an array of elements for consistency, rather than a single element with children.
-	if (!Array.isArray(value)) value = [value];
-	// Convert the template to a string so we can use regex later to substitute places the #s.
-	this.templates[name] = JSON.stringify(value);
+exports.prototype.filter = function(id, filterFunction) {
+	
 };
 
 exports.prototype.getdata = function() {
 	var d = {};
+	console.log(this.formdata);
 	for (var e in this.formdata) {
 		d[e] = this.formdata[e].value;
 		// This is specific to `select` and `multiselect` groups...
@@ -80,6 +77,18 @@ exports.prototype.getdata = function() {
 		}
 	}
 	return d;
+};
+
+exports.prototype.on = function(ev, callback) {
+	if (!this.events[ev]) this.events[ev] = [];
+	this.events[ev].push(callback);
+}
+
+exports.prototype.template = function(name, value) {
+	// Ensure we have an array of elements for consistency, rather than a single element with children.
+	if (!Array.isArray(value)) value = [value];
+	// Convert the template to a string so we can use regex later to substitute places the #s.
+	this.templates[name] = JSON.stringify(value);
 };
 
 function generateChildren(data) {
