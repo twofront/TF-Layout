@@ -21,12 +21,12 @@ var ele = tfl.build([
 	{type: 'input', search: ['Nouns','Pronouns','Verbs']},
 	{type: 'input', subtype: 'text', name: 'Username', value: 'Us', placeholder: 'Username'},
 	{type: 'header', contents: [
-		{type: 'row', sort: 'Nouns', contents: [
+		{type: 'row', sort: 'Nouns', togglecolumns: true, contents: [
 			{type: 'text', value: 'Nouns', stylesuffix: '-Header'},
 			{type: 'text', value: 'Properties', stylesuffix: '-Header'}
 		]}
 	]},
-	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', multiselect: true, contents: [
+	{type: 'group', id: 'Nouns', name: 'Nouns', dragsort: true, onclick: 'tagselect', oncontext: ['Rename', 'Delete'], multiselect: true, contents: [
 		{type: 'ttext', value: 'Couch', prop: 'Furniture'},
 		{type: 'ttext', value: 'Desk', prop: 'Furniture'},
 		{type: 'ttext', value: 'Table', prop: 'Furniture'},
@@ -61,6 +61,10 @@ tfl.on('click', function(param) {
 		return rowdata.toLowerCase()==='yellow' ? true : false;
 	});
 	alert(JSON.stringify(tfl.getdata()));
+});
+
+tfl.on('context', function(param) {
+	alert(param);
 });
 
 document.body.appendChild(ele);
