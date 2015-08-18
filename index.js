@@ -8,8 +8,6 @@ module.exports = exports = function(settings) {
 	this.events = {};
 	// Templates allow complex layout data to be simplified.
 	this.templates = {};
-	// A stack of all headers used to decide which one sticks to the top and helps do it.
-	this.headerstack = [];
 
 	// This holds all the inputs or groups whose values will be outputted as form-like data.
 	// All elements that specify a "name" are added.
@@ -28,25 +26,6 @@ exports.prototype.build = function(data) {
 	this.headerholder = dom.create('div', {
 		parent: this.container,
 		style: 'position: fixed; top: 0px; left: 0px; overflow: hidden;'
-	});
-
-	this.container.addEventListener('scroll', function scrolled(e) {
-		that.headerholder.style.left = -e.target.scrollLeft+'px';
-		var topPos = e.target.scrollTop;
-		if (that.activeheader) {
-			that.activeheader.holder.appendChild(that.activeheader.header);
-			that.activeheader.holder.style.height = null;
-			that.activeheader = null;
-		}
-		for (var i=that.headerstack.length-1; i>=0; i--) {
-			var h = that.headerstack[i];
-			if (h.holder.offsetTop < topPos) {
-				h.holder.style.height = h.holder.offsetHeight+'px';
-				that.headerholder.appendChild(h.header);
-				that.activeheader = h;
-				return;
-			}
-		}
 	});
 
 	this.formdata = {};
@@ -99,7 +78,7 @@ function generateChildren(data) {
 			var t = this.templates[e.type];
 			// Loop through property values and insert them in the template.
 			for (var f in e) {
-				if (f !== 'type') t = t.replace('#'+f, e[f]);
+				if (f !== 'type') t = t.replace(new RegExp('#'+f, 'g'), e[f]);
 			}
 			// Replace any variables that weren't used with an empty string.
 			t = t.replace(/\#([a-zA-Z_]+)/g, '');

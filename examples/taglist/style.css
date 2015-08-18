@@ -41,11 +41,10 @@ input {
 }
 
 .TFL-Row {
-
+	background: white;
 }
 
 .TFL-Column {
-	background: white;
 	padding: 5px;
 }
 

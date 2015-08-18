@@ -6,12 +6,12 @@ var tfl = new TFLayout({
 });
 
 tfl.template('simpleheader', {type: 'header', contents: [
-	{type: 'row', sort: '#sort', contents: [
+	{type: 'row', sort: '#sort', stylesuffix: '-Header', contents: [
 		{type: 'text', value: '#value', stylesuffix: '-Header'}
 	]}
 ]});
 
-tfl.template('ttext', {type: 'row', contents: [
+tfl.template('ttext', {type: 'row', value: '#value', contents: [
 	{type: 'text', value: '#value'},
 	{type: 'text', value: '#prop'}
 ]});
@@ -21,7 +21,7 @@ var ele = tfl.build([
 	{type: 'input', search: ['Nouns','Pronouns','Verbs']},
 	{type: 'input', subtype: 'text', name: 'Username', value: 'Us', placeholder: 'Username'},
 	{type: 'header', contents: [
-		{type: 'row', sort: 'Nouns', togglecolumns: true, contents: [
+		{type: 'row', sort: 'Nouns', stylesuffix: '-Header', togglecolumns: true, contents: [
 			{type: 'text', value: 'Nouns', stylesuffix: '-Header'},
 			{type: 'text', value: 'Properties', stylesuffix: '-Header'}
 		]}
@@ -53,14 +53,17 @@ var ele = tfl.build([
 		{type: 'text', value: 'Open'},
 		{type: 'text', value: 'Plop'},
 		{type: 'text', value: 'Rest'}
-	]}
+	]},
+	{type: 'input', subtype: 'button', value: 'Submit', onclick: 'button'}
 ]);
 
 tfl.on('click', function(param) {
-	tfl.filter('Nouns', function(rowdata) {
-		return rowdata.toLowerCase()==='yellow' ? true : false;
-	});
-	alert(JSON.stringify(tfl.getdata()));
+	if (param === 'button') {
+		tfl.filter('Nouns', function(rowdata) {
+			return rowdata.toLowerCase()==='yellow' ? true : false;
+		});
+		alert(JSON.stringify(tfl.getdata()));
+	}
 });
 
 tfl.on('context', function(param) {
