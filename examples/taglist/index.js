@@ -26,7 +26,7 @@ var ele = tfl.build([
 			{type: 'text', value: 'Properties', stylesuffix: '-Header'}
 		]}
 	]},
-	{type: 'group', id: 'Nouns', name: 'Nouns', dragsort: true, onclick: 'tagselect', oncontext: ['Rename', 'Delete'], multiselect: true, contents: [
+	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', oncontext: ['Rename', 'Delete'], select: true, contents: [
 		{type: 'ttext', value: 'Couch', prop: 'Furniture'},
 		{type: 'ttext', value: 'Desk', prop: 'Furniture'},
 		{type: 'ttext', value: 'Table', prop: 'Furniture'},
@@ -40,7 +40,7 @@ var ele = tfl.build([
 		{type: 'text', value: 'You'}
 	]},
 	{type: 'simpleheader', value: 'Verbs', sort: 'Verbs'},
-	{type: 'group', id: 'Verbs', name: 'Verbs', onclick: 'tagselect', multiselect: true, contents: [
+	{type: 'group', id: 'Verbs', name: 'Verbs', onclick: 'tagselect', dragsort: true, select: true, contents: [
 		{type: 'text', value: 'Ate'},
 		{type: 'text', value: 'Break'},
 		{type: 'text', value: 'Crunch'},
