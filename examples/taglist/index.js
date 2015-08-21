@@ -42,7 +42,7 @@ var ele = tfl.build([
 		{type: 'text', value: 'You'}
 	]},
 	{type: 'simpleheader', value: 'Verbs', sort: 'Verbs'},
-	{type: 'group', id: 'Verbs', name: 'Verbs', onclick: 'tagselect', dragsort: true, select: true, contents: [
+	{type: 'group', id: 'Verbs', name: 'Verbs', onclick: 'tagselect', childrows: true, dragsort: true, select: true, contents: [
 		{type: 'text', value: 'Ate'},
 		{type: 'text', value: 'Break'},
 		{type: 'text', value: 'Crunch'},
