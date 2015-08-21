@@ -61,7 +61,16 @@ exports.prototype.getdata = function() {
 exports.prototype.on = function(ev, callback) {
 	if (!this.events[ev]) this.events[ev] = [];
 	this.events[ev].push(callback);
-}
+};
+
+exports.prototype.emit = function(ev, e) {
+	if (this.events[ev]) {
+		var evs = this.events[ev];
+		for (var i=0; i<evs.length; i++) {
+			evs[i](e);
+		}
+	}
+};
 
 exports.prototype.template = function(name, value) {
 	// Ensure we have an array of elements for consistency, rather than a single element with children.

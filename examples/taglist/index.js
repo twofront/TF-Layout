@@ -26,7 +26,9 @@ var ele = tfl.build([
 			{type: 'text', value: 'Properties', stylesuffix: '-Header'}
 		]}
 	]},
-	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', oncontext: ['Rename', 'Delete'], select: true, contents: [
+	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', oncontext: ['Rename', 'Delete'], select: true, columnids: [
+		'Noun', 'Type'
+	], contents: [
 		{type: 'ttext', value: 'Couch', prop: 'Furniture'},
 		{type: 'ttext', value: 'Desk', prop: 'Furniture'},
 		{type: 'ttext', value: 'Table', prop: 'Furniture'},
@@ -67,7 +69,7 @@ tfl.on('click', function(param) {
 });
 
 tfl.on('context', function(param) {
-	alert(param);
+	alert(JSON.stringify(param));
 });
 
 document.body.appendChild(ele);
