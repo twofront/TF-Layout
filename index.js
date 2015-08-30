@@ -24,8 +24,7 @@ exports.prototype.build = function(data) {
 		class: this.settings.styleprefix + 'Container'
 	});
 	this.headerholder = dom.create('div', {
-		parent: this.container,
-		style: 'position: fixed; top: 0px; left: 0px; overflow: hidden;'
+		style: 'position: absolute; top: 0px; left: 0px; overflow: hidden;'
 	});
 
 	this.formdata = {};
@@ -33,7 +32,13 @@ exports.prototype.build = function(data) {
 	this.displaygroups = {};
 
 	generateChildren.call(this, data);
-	return this.container;
+	
+	if (this.settings.parent) {
+		this.settings.parent.appendChild(this.container);
+		this.settings.parent.appendChild(this.headerholder);
+	} else {
+		return this.container;
+	}
 };
 
 exports.prototype.filter = function(id, filterFunction) {
