@@ -26,6 +26,7 @@ exports.prototype.build = function(data) {
 	this.headerholder = dom.create('div', {
 		style: 'position: absolute; top: 0px; left: 0px; overflow: hidden;'
 	});
+	this.headerstack = null;
 
 	this.formdata = {};
 	this.elements = {};
