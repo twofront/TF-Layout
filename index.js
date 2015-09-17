@@ -37,6 +37,9 @@ exports.prototype.build = function(data) {
 	if (this.settings.parent) {
 		this.settings.parent.appendChild(this.container);
 		this.settings.parent.appendChild(this.headerholder);
+		this.settings.parent.ontouchmove = function(e) {
+			e.stopPropagation();
+		}
 	} else {
 		return this.container;
 	}
