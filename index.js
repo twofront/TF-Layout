@@ -54,8 +54,9 @@ exports.prototype.getdata = function() {
 	console.log(this.formdata);
 	for (var e in this.formdata) {
 		d[e] = this.formdata[e].value;
-		// This is specific to `select` and `multiselect` groups...
+		// This is specific to`select` groups...
 		if (typeof(d[e]) === 'object' && d[e] !== null && d[e].value) d[e] = d[e].value;
+		// This is specific to `multiselect` groups...
 		if (Array.isArray(d[e])) {
 			var na = [];
 			for (var i=0; i<d[e].length; i++) {

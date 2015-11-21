@@ -1,5 +1,5 @@
 
-var TFLayout = require('../../');
+var TFLayout = require('../');
 
 var tfl = new TFLayout({
 	styleprefix: 'TFL-'
@@ -26,7 +26,7 @@ var ele = tfl.build([
 			{type: 'text', value: 'Properties', stylesuffix: '-Header'}
 		]}
 	]},
-	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', oncontext: ['Rename', 'Delete'], select: true, columnids: [
+	{type: 'group', id: 'Nouns', name: 'Nouns', onclick: 'tagselect', dragsort: true, oncontext: ['Rename', 'Delete'], select: true, columnids: [
 		'Noun', 'Type'
 	], contents: [
 		{type: 'ttext', value: 'Couch', prop: 'Furniture'},
@@ -60,16 +60,17 @@ var ele = tfl.build([
 ]);
 
 tfl.on('click', function(param) {
-	if (param === 'button') {
+	console.log(param);
+	if (param.data === 'button') {
 		tfl.filter('Nouns', function(rowdata) {
 			return rowdata.toLowerCase()==='yellow' ? true : false;
 		});
-		alert(JSON.stringify(tfl.getdata()));
+		console.log(JSON.stringify(tfl.getdata()));
 	}
 });
 
 tfl.on('context', function(param) {
-	alert(JSON.stringify(param));
+	console.log(JSON.stringify(param));
 });
 
 document.body.appendChild(ele);
